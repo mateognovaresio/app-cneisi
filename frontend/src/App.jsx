@@ -1,26 +1,14 @@
-import { useState } from 'react';
+import { useAuth } from './context/AuthContext';
 import Login from './components/Login';
 import Dashboard from './components/Dashboard';
 
 function App() {
-  const [usuario, setUsuario] = useState(null);
-
-  function manejarLogin(usuarioLogueado) {
-    setUsuario(usuarioLogueado);
-  }
-
-  function cerrarSesion() {
-    setUsuario(null);
-  }
+  const { usuario } = useAuth();
 
   return (
     <div>
       <h1>App CNEISI</h1>
-      {usuario ? (
-        <Dashboard usuario={usuario} onCerrarSesion={cerrarSesion} />
-      ) : (
-        <Login onLoginExitoso={manejarLogin} />
-      )}
+      {usuario ? <Dashboard /> : <Login />}
     </div>
   );
 }

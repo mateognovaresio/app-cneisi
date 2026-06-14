@@ -1,7 +1,11 @@
-function Dashboard({ usuario, onCerrarSesion }) {
+import { useAuth } from '../context/AuthContext';
+
+function Dashboard() {
+  const { usuario, logout } = useAuth();
+
   return (
     <div>
-      <button onClick={onCerrarSesion}>Salir</button>
+      <button onClick={logout}>Salir</button>
       <h1>Hola, {usuario.nombre} 👋</h1>
       <p>
         Ingresaste correctamente. Tu rol en el sistema es{' '}

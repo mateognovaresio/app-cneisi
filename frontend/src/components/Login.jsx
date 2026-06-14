@@ -1,6 +1,8 @@
 import { useState } from 'react';
+import { useAuth } from '../context/AuthContext';
 
-function Login({ onLoginExitoso }) {
+function Login() {
+  const { login } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -21,7 +23,7 @@ function Login({ onLoginExitoso }) {
     }
 
     const usuario = await respuesta.json();
-    onLoginExitoso(usuario);
+    login(usuario);
   }
 
   return (
