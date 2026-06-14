@@ -21,6 +21,22 @@ function PanelAdmin() {
     setActividades([...actividades, nueva]);
   }
 
+  async function eliminarActividad(id) {
+    const respuesta = await fetch(`http://localhost:3000/actividades/${id}`, {
+      method: 'DELETE',
+    });
+
+    if (respuesta.ok) {
+      setActividades(actividades.filter((act) => act.id !== id));
+    }
+  }
+
+  function actualizarActividad(actualizada) {
+    setActividades(
+      actividades.map((act) => (act.id === actualizada.id ? actualizada : act))
+    );
+  }
+
   return (
     <div style={{ padding: 16 }}>
       <h2>Panel de gestión</h2>
@@ -32,7 +48,11 @@ function PanelAdmin() {
       {cargando ? (
         <p>Cargando charlas...</p>
       ) : (
-        <ListaActividades actividades={actividades} />
+        <ListaActividades
+          actividades={actividades}
+          onEliminar={eliminarActividad}
+          onActualizar={actualizarActividad}
+        />
       )}
     </div>
   );
