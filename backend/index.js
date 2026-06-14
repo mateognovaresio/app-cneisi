@@ -6,6 +6,7 @@ const eventosRouter = require('./routes/eventos');
 const actividadesRouter = require('./routes/actividades');
 const inscripcionesRouter = require('./routes/inscripciones');
 const asistenciasRouter = require('./routes/asistencias');
+const authRouter = require('./routes/auth');
 
 const app = express();
 const PORT = 3000;
@@ -22,6 +23,7 @@ app.use('/eventos', eventosRouter);
 app.use('/actividades', actividadesRouter);
 app.use('/inscripciones', inscripcionesRouter);
 app.use('/asistencias', asistenciasRouter);
+app.use('/auth', authRouter);
 
 async function iniciar() {
   try {
