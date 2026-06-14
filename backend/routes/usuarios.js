@@ -1,6 +1,22 @@
 const express = require('express');
 const router = express.Router();
+const { body, validationResult } = require('express-validator');
 const { Usuario } = require('../models');
+
+const reglasUsuario = [
+  body('nombre').notEmpty().withMessage('El nombre es obligatorio'),
+  body('email').isEmail().withMessage('El email no es válido'),
+  body('password').isLength({ min: 4 }).withMessage('La contraseña debe tener al menos 4 caracteres'),
+  body('rol').isIn(['superadmin', 'admin', 'participante']).withMessage('Rol inválido'),
+];
+
+function validar(req, res, next) {
+  const errores = validationResult(req);
+  if (!errores.isEmpty()) {
+    return res.status(400).json({ errores: errores.array() });
+  }
+  next();
+}
 
 router.get('/', async (req, res) => {
   const usuarios = await Usuario.findAll();
@@ -13,7 +29,7 @@ router.get('/:id', async (req, res) => {
   res.json(usuario);
 });
 
-router.post('/', async (req, res) => {
+router.post('/', reglasUsuario, validar, async (req, res) => {
   try {
     const nuevo = await Usuario.create(req.body);
     res.status(201).json(nuevo);
@@ -22,7 +38,7 @@ router.post('/', async (req, res) => {
   }
 });
 
-router.put('/:id', async (req, res) => {
+router.put('/:id', reglasUsuario, validar, async (req, res) => {
   const usuario = await Usuario.findByPk(req.params.id);
   if (!usuario) return res.status(404).json({ error: 'Usuario no encontrado' });
   await usuario.update(req.body);
