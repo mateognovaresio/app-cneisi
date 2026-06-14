@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const Usuario = require('../models/Usuario');
+const { Usuario } = require('../models');
 
 router.get('/', async (req, res) => {
   const usuarios = await Usuario.findAll();
@@ -9,9 +9,7 @@ router.get('/', async (req, res) => {
 
 router.get('/:id', async (req, res) => {
   const usuario = await Usuario.findByPk(req.params.id);
-  if (!usuario) {
-    return res.status(404).json({ error: 'Usuario no encontrado' });
-  }
+  if (!usuario) return res.status(404).json({ error: 'Usuario no encontrado' });
   res.json(usuario);
 });
 
@@ -26,18 +24,14 @@ router.post('/', async (req, res) => {
 
 router.put('/:id', async (req, res) => {
   const usuario = await Usuario.findByPk(req.params.id);
-  if (!usuario) {
-    return res.status(404).json({ error: 'Usuario no encontrado' });
-  }
+  if (!usuario) return res.status(404).json({ error: 'Usuario no encontrado' });
   await usuario.update(req.body);
   res.json(usuario);
 });
 
 router.delete('/:id', async (req, res) => {
   const usuario = await Usuario.findByPk(req.params.id);
-  if (!usuario) {
-    return res.status(404).json({ error: 'Usuario no encontrado' });
-  }
+  if (!usuario) return res.status(404).json({ error: 'Usuario no encontrado' });
   await usuario.destroy();
   res.status(204).send();
 });
