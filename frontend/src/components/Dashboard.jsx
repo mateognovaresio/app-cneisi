@@ -1,26 +1,20 @@
 import { useAuth } from '../context/AuthContext';
+import Cronograma from './Cronograma';
+import PanelAdmin from './PanelAdmin';
 
 function Dashboard() {
   const { usuario, logout } = useAuth();
 
+  const esGestor = usuario.rol === 'admin' || usuario.rol === 'superadmin';
+
   return (
     <div>
-      <button onClick={logout}>Salir</button>
-      <h1>Hola, {usuario.nombre} 👋</h1>
-      <p>
-        Ingresaste correctamente. Tu rol en el sistema es{' '}
-        <strong>{usuario.rol}</strong>.
-      </p>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <span>Hola, {usuario.nombre} ({usuario.rol})</span>
+        <button onClick={logout}>Salir</button>
+      </div>
 
-      {usuario.rol === 'superadmin' && (
-        <p>Tenés acceso total: gestión de inscriptos, charlas y métricas.</p>
-      )}
-      {usuario.rol === 'admin' && (
-        <p>Como admin podés controlar la asistencia en las aulas.</p>
-      )}
-      {usuario.rol === 'participante' && (
-        <p>Podés ver el cronograma e inscribirte a las charlas.</p>
-      )}
+      {esGestor ? <PanelAdmin /> : <Cronograma />}
     </div>
   );
 }
