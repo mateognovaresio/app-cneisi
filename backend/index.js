@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 const { sequelize } = require('./models');
 const usuariosRouter = require('./routes/usuarios');
 const eventosRouter = require('./routes/eventos');
@@ -9,6 +10,7 @@ const asistenciasRouter = require('./routes/asistencias');
 const app = express();
 const PORT = 3000;
 
+app.use(cors());
 app.use(express.json());
 
 app.get('/', (req, res) => {

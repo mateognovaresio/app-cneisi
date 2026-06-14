@@ -1,6 +1,20 @@
 const express = require('express');
 const router = express.Router();
+const { body, validationResult } = require('express-validator');
 const { Actividad } = require('../models');
+
+const reglasActividad = [
+  body('titulo').notEmpty().withMessage('El título es obligatorio'),
+  body('inicio').isISO8601().withMessage('La fecha/hora de inicio no es válida'),
+  body('cupo').isInt({ min: 0 }).withMessage('El cupo debe ser un número igual o mayor a 0'),
+  body('eventoId').isInt().withMessage('Debe indicar a qué evento pertenece'),
+];
+
+function validar(req, res, next) {
+  const errores = validationResult(req);
+  if (!errores.isEmpty()) return res.status(400).json({ errores: errores.array() });
+  next();
+}
 
 router.get('/', async (req, res) => {
   const actividades = await Actividad.findAll();
@@ -13,7 +27,7 @@ router.get('/:id', async (req, res) => {
   res.json(actividad);
 });
 
-router.post('/', async (req, res) => {
+router.post('/', reglasActividad, validar, async (req, res) => {
   try {
     const nueva = await Actividad.create(req.body);
     res.status(201).json(nueva);
@@ -22,7 +36,7 @@ router.post('/', async (req, res) => {
   }
 });
 
-router.put('/:id', async (req, res) => {
+router.put('/:id', reglasActividad, validar, async (req, res) => {
   const actividad = await Actividad.findByPk(req.params.id);
   if (!actividad) return res.status(404).json({ error: 'Actividad no encontrada' });
   await actividad.update(req.body);
