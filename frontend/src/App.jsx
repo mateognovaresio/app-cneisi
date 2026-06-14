@@ -1,25 +1,26 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
+import Login from './components/Login';
+import Dashboard from './components/Dashboard';
 
 function App() {
-  const [eventos, setEventos] = useState([]);
+  const [usuario, setUsuario] = useState(null);
 
-  useEffect(() => {
-    fetch('http://localhost:3000/eventos')
-      .then((respuesta) => respuesta.json())
-      .then((datos) => setEventos(datos));
-  }, []);
+  function manejarLogin(usuarioLogueado) {
+    setUsuario(usuarioLogueado);
+  }
+
+  function cerrarSesion() {
+    setUsuario(null);
+  }
 
   return (
     <div>
       <h1>App CNEISI</h1>
-      <h2>Eventos</h2>
-      <ul>
-        {eventos.map((evento) => (
-          <li key={evento.id}>
-            {evento.nombre} — {evento.lugar}
-          </li>
-        ))}
-      </ul>
+      {usuario ? (
+        <Dashboard usuario={usuario} onCerrarSesion={cerrarSesion} />
+      ) : (
+        <Login onLoginExitoso={manejarLogin} />
+      )}
     </div>
   );
 }
