@@ -30,50 +30,59 @@ function FormularioActividad({ onActividadCreada }) {
 
     const nueva = await respuesta.json();
     onActividadCreada(nueva);
-
     setTitulo('');
     setDisertante('');
     setInicio('');
     setCupo('');
   }
 
+  const inputClase =
+    'w-full bg-slate-800 border border-slate-700 text-white rounded-lg px-3 py-2 focus:outline-none focus:border-sky-500';
+
   return (
-    <form onSubmit={manejarEnvio} style={{ marginBottom: 20 }}>
-      <h3>Crear charla</h3>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      <div>
+    <div className="bg-slate-900 border border-slate-800 rounded-xl p-5">
+      <h3 className="text-white font-semibold mb-4">Crear charla</h3>
+      {error && (
+        <div className="bg-red-950 border border-red-800 text-red-300 text-sm rounded-lg p-3 mb-4">
+          {error}
+        </div>
+      )}
+      <form onSubmit={manejarEnvio} className="space-y-3">
         <input
           type="text"
           placeholder="Título"
           value={titulo}
           onChange={(e) => setTitulo(e.target.value)}
+          className={inputClase}
         />
-      </div>
-      <div>
         <input
           type="text"
           placeholder="Disertante"
           value={disertante}
           onChange={(e) => setDisertante(e.target.value)}
+          className={inputClase}
         />
-      </div>
-      <div>
         <input
           type="datetime-local"
           value={inicio}
           onChange={(e) => setInicio(e.target.value)}
+          className={inputClase}
         />
-      </div>
-      <div>
         <input
           type="number"
           placeholder="Cupo"
           value={cupo}
           onChange={(e) => setCupo(e.target.value)}
+          className={inputClase}
         />
-      </div>
-      <button type="submit">Crear charla</button>
-    </form>
+        <button
+          type="submit"
+          className="bg-yellow-400 hover:bg-yellow-300 text-slate-900 font-semibold rounded-lg px-4 py-2 transition-colors"
+        >
+          Crear charla
+        </button>
+      </form>
+    </div>
   );
 }
 
