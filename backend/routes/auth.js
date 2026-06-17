@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const jwt = require('jsonwebtoken');
 const { body, validationResult } = require('express-validator');
 const { Usuario } = require('../models');
 
@@ -15,7 +16,6 @@ router.post('/login', reglasLogin, async (req, res) => {
   }
 
   const { email, password } = req.body;
-
   const usuario = await Usuario.findOne({ where: { email } });
 
   if (!usuario) {
@@ -23,16 +23,24 @@ router.post('/login', reglasLogin, async (req, res) => {
   }
 
   const coincide = await usuario.compararPassword(password);
-
   if (!coincide) {
     return res.status(401).json({ error: 'Credenciales incorrectas' });
   }
 
+  const token = jwt.sign(
+    { id: usuario.id, rol: usuario.rol },
+    process.env.JWT_SECRET,
+    { expiresIn: '8h' }
+  );
+
   res.json({
-    id: usuario.id,
-    nombre: usuario.nombre,
-    email: usuario.email,
-    rol: usuario.rol,
+    token,
+    usuario: {
+      id: usuario.id,
+      nombre: usuario.nombre,
+      email: usuario.email,
+      rol: usuario.rol,
+    },
   });
 });
 

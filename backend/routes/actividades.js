@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { body, validationResult } = require('express-validator');
 const { Actividad } = require('../models');
+const { verificarToken, permitirRoles } = require('../middleware/auth');
 
 const reglasActividad = [
   body('titulo').notEmpty().withMessage('El título es obligatorio'),
@@ -27,7 +28,7 @@ router.get('/:id', async (req, res) => {
   res.json(actividad);
 });
 
-router.post('/', reglasActividad, validar, async (req, res) => {
+router.post('/', verificarToken, permitirRoles('admin', 'superadmin'), reglasActividad, validar, async (req, res) => {
   try {
     const nueva = await Actividad.create(req.body);
     res.status(201).json(nueva);
@@ -36,14 +37,14 @@ router.post('/', reglasActividad, validar, async (req, res) => {
   }
 });
 
-router.put('/:id', reglasActividad, validar, async (req, res) => {
+router.put('/:id', verificarToken, permitirRoles('admin', 'superadmin'), reglasActividad, validar, async (req, res) => {
   const actividad = await Actividad.findByPk(req.params.id);
   if (!actividad) return res.status(404).json({ error: 'Actividad no encontrada' });
   await actividad.update(req.body);
   res.json(actividad);
 });
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', verificarToken, permitirRoles('admin', 'superadmin'), async (req, res) => {
   const actividad = await Actividad.findByPk(req.params.id);
   if (!actividad) return res.status(404).json({ error: 'Actividad no encontrada' });
   await actividad.destroy();

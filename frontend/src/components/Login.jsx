@@ -24,8 +24,8 @@ function Login() {
       return;
     }
 
-    const usuario = await respuesta.json();
-    login(usuario);
+    const datos = await respuesta.json();
+    login(datos.usuario, datos.token);
     navigate('/cronograma');
   }
 

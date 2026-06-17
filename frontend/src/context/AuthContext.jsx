@@ -7,19 +7,24 @@ export function AuthProvider({ children }) {
     const guardado = localStorage.getItem('usuario');
     return guardado ? JSON.parse(guardado) : null;
   });
+  const [token, setToken] = useState(() => localStorage.getItem('token') || null);
 
-  function login(datosUsuario) {
+  function login(datosUsuario, tokenRecibido) {
     setUsuario(datosUsuario);
+    setToken(tokenRecibido);
     localStorage.setItem('usuario', JSON.stringify(datosUsuario));
+    localStorage.setItem('token', tokenRecibido);
   }
 
   function logout() {
     setUsuario(null);
+    setToken(null);
     localStorage.removeItem('usuario');
+    localStorage.removeItem('token');
   }
 
   return (
-    <AuthContext.Provider value={{ usuario, login, logout }}>
+    <AuthContext.Provider value={{ usuario, token, login, logout }}>
       {children}
     </AuthContext.Provider>
   );

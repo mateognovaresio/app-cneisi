@@ -4,7 +4,7 @@ import FormularioActividad from './FormularioActividad';
 import ListaActividades from './ListaActividades';
 
 function PanelAdmin() {
-  const { usuario } = useAuth();
+  const { usuario, token } = useAuth();
   const [actividades, setActividades] = useState([]);
   const [cargando, setCargando] = useState(true);
 
@@ -24,6 +24,7 @@ function PanelAdmin() {
   async function eliminarActividad(id) {
     const respuesta = await fetch(`http://localhost:3000/actividades/${id}`, {
       method: 'DELETE',
+      headers: { Authorization: `Bearer ${token}` },
     });
     if (respuesta.ok) {
       setActividades(actividades.filter((act) => act.id !== id));
@@ -46,14 +47,13 @@ function PanelAdmin() {
 
         <FormularioActividad onActividadCreada={agregarActividad} />
 
-        <h3 className="text-lg font-semibold text-white mt-8 mb-3">
-          Charlas cargadas
-        </h3>
+        <h3 className="text-lg font-semibold text-white mt-8 mb-3">Charlas cargadas</h3>
         {cargando ? (
           <p className="text-slate-400">Cargando charlas...</p>
         ) : (
           <ListaActividades
             actividades={actividades}
+            token={token}
             onEliminar={eliminarActividad}
             onActualizar={actualizarActividad}
           />
