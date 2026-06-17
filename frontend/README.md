@@ -1,16 +1,57 @@
-# React + Vite
+# App CNEISI — Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Cliente web del sistema de gestión del Congreso Nacional de Estudiantes de
+Ingeniería en Sistemas de Información (CNEISI). Desarrollado con React y Vite,
+estilado con Tailwind CSS.
 
-Currently, two official plugins are available:
+## Requisitos
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- Node.js 18 o superior
+- npm
+- El backend debe estar corriendo (ver el README de la carpeta `backend`).
 
-## React Compiler
+## Instalación
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+1. Entrar a la carpeta del frontend:
 
-## Expanding the ESLint configuration
+```bash
+   cd app-cneisi/frontend
+```
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+2. Instalar las dependencias:
+
+```bash
+   npm install
+```
+
+## Cómo levantar la app
+
+```bash
+npm run dev
+```
+
+La aplicación queda disponible en `http://localhost:5173`. Requiere que el
+backend esté corriendo en `http://localhost:3000`.
+
+## Funcionalidades
+
+- Inicio de sesión con email y contraseña, validando contra el backend.
+- Sesión persistente (se mantiene al recargar la página).
+- Navegación con rutas y control de acceso según el rol del usuario.
+- **Participante**: visualiza el cronograma de actividades.
+- **Admin / Superadmin**: accede al panel de gestión con ABM de charlas
+  (crear, editar y eliminar).
+
+## Tecnologías
+
+- React (con Vite)
+- react-router-dom (navegación)
+- useContext (estado global de sesión)
+- Tailwind CSS (estilos)
+
+## Usuarios de prueba
+
+| Email              | Contraseña  | Rol         |
+|--------------------|-------------|-------------|
+| sofia@cneisi.org   | cneisi2026  | superadmin  |
+| juan@cneisi.org    | juan1234    | participante|
