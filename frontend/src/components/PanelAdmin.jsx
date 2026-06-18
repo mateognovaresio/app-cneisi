@@ -12,7 +12,7 @@ function PanelAdmin() {
     fetch('http://localhost:3000/actividades')
       .then((respuesta) => respuesta.json())
       .then((datos) => {
-        setActividades(datos);
+        setActividades(datos.actividades);
         setCargando(false);
       });
   }, []);

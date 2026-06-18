@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const { Op } = require('sequelize');
 const { body, validationResult } = require('express-validator');
 const { Actividad } = require('../models');
 const { verificarToken, permitirRoles } = require('../middleware/auth');
@@ -18,8 +19,30 @@ function validar(req, res, next) {
 }
 
 router.get('/', async (req, res) => {
-  const actividades = await Actividad.findAll();
-  res.json(actividades);
+  const { titulo, page = 1, limit = 10 } = req.query;
+
+  const where = {};
+  if (titulo) {
+    where.titulo = { [Op.like]: `%${titulo}%` };
+  }
+
+  const pagina = parseInt(page);
+  const porPagina = parseInt(limit);
+  const offset = (pagina - 1) * porPagina;
+
+  const { count, rows } = await Actividad.findAndCountAll({
+    where,
+    limit: porPagina,
+    offset,
+    order: [['inicio', 'ASC']],
+  });
+
+  res.json({
+    total: count,
+    pagina,
+    totalPaginas: Math.ceil(count / porPagina),
+    actividades: rows,
+  });
 });
 
 router.get('/:id', async (req, res) => {

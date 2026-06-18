@@ -32,6 +32,9 @@ function Navbar() {
           Panel
         </Link>
       )}
+      <Link to="/perfil" className={claseLink('/perfil')}>
+        Mi credencial
+      </Link>
 
       <div className="ml-auto flex items-center gap-4">
         <span className="text-sm text-slate-400">
