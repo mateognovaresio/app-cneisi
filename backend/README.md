@@ -1,7 +1,3 @@
-Acá va todo junto:
-
----
-
 # Backend — App CNEISI
 
 API REST para el sistema de gestión del congreso universitario CNEISI. Desarrollada con **Node.js**, **Express** y **Sequelize** sobre una base de datos **SQLite**.
