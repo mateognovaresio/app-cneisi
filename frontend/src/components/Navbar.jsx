@@ -22,7 +22,9 @@ function Navbar() {
 
   return (
     <nav className="bg-slate-900 border-b border-slate-800 px-6 py-3 flex items-center gap-6">
-      <span className="font-mono text-sky-400">&lt;CNEISI/&gt;</span>
+      <Link to="/cronograma">
+        <img src="/logo.png" alt="CNEISI 2026" className="h-7" />
+      </Link>
 
       <Link to="/cronograma" className={claseLink('/cronograma')}>
         Cronograma

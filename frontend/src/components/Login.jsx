@@ -32,9 +32,8 @@ function Login() {
   return (
     <div className="min-h-screen bg-slate-950 flex items-center justify-center p-4">
       <div className="w-full max-w-md bg-slate-900 border border-slate-800 rounded-2xl p-8">
-        <div className="mb-6">
-          <span className="font-mono text-sky-400 text-lg">&lt;CNEISI/&gt;</span>
-          <span className="font-mono text-yellow-400 text-lg ml-1">2026</span>
+        <div className="flex justify-center mb-8">
+          <img src="/logo.png" alt="CNEISI 2026" className="h-12" />
         </div>
 
         <h2 className="text-2xl font-bold text-white mb-1">Ingresar</h2>

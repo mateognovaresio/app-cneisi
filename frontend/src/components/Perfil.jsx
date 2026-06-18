@@ -16,9 +16,8 @@ function Perfil() {
         <h2 className="text-2xl font-bold text-white mb-6">Mi credencial</h2>
 
         <div className="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden">
-          <div className="bg-slate-800 px-6 py-4 flex items-center justify-between">
-            <span className="font-mono text-sky-400">&lt;CNEISI/&gt;</span>
-            <span className="font-mono text-yellow-400 text-sm">2026</span>
+          <div className="bg-slate-800 px-6 py-4 flex items-center justify-center">
+            <img src="/logo.png" alt="CNEISI 2026" className="h-8" />
           </div>
 
           <div className="p-6 flex flex-col items-center">
